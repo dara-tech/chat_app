@@ -6,7 +6,8 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prismadb";
 
-export const authOptions: AuthOptions = {
+// Define auth options
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -40,7 +41,7 @@ export const authOptions: AuthOptions = {
 
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword,
+          user.hashedPassword
         );
 
         if (!isCorrectPassword) {
@@ -58,7 +59,8 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// NextAuth handler for both GET and POST methods
+// Create handler
 const handler = NextAuth(authOptions);
 
+// Export route handlers
 export { handler as GET, handler as POST };
