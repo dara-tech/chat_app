@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { FullConversationType } from "../types";
@@ -21,12 +21,12 @@ interface ConversationListProps {
 
 const ConversationList: React.FC<ConversationListProps> = ({
   initialItems,
-  users
+  users,
 }) => {
   const session = useSession();
   const [items, setItems] = useState(initialItems);
   const [filteredItems, setFilteredItems] = useState(initialItems);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { conversationId, isOpen } = useConversation();
@@ -44,13 +44,17 @@ const ConversationList: React.FC<ConversationListProps> = ({
       }
 
       const filtered = items.filter((item) => {
-        const searchStr = item.name?.toLowerCase() || 
-          item.users.map(user => user.name).join(' ').toLowerCase();
+        const searchStr =
+          item.name?.toLowerCase() ||
+          item.users
+            .map((user) => user.name)
+            .join(" ")
+            .toLowerCase();
         return searchStr.includes(query.toLowerCase());
       });
       setFilteredItems(filtered);
     }, 300),
-    [items]
+    [items],
   );
 
   useEffect(() => {
@@ -75,34 +79,36 @@ const ConversationList: React.FC<ConversationListProps> = ({
     };
 
     const updateHandler = (conversation: FullConversationType) => {
-      setItems((current) => current.map((currentConversation) => {
-        if (currentConversation.id === conversation.id) {
-          return {
-            ...currentConversation,
-            messages: conversation.messages
-          };
-        }
-        return currentConversation;
-      }));
-    };
-
-    const deleteHandler = (conversationId: string) => {
-      setItems((current) => 
-        current.filter((conv) => conv.id !== conversationId)
+      setItems((current) =>
+        current.map((currentConversation) => {
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages,
+            };
+          }
+          return currentConversation;
+        }),
       );
     };
 
-    pusherClient.bind('conversation:new', newHandler);
-    pusherClient.bind('conversation:update', updateHandler);
-    pusherClient.bind('conversation:delete', deleteHandler);
+    const deleteHandler = (conversationId: string) => {
+      setItems((current) =>
+        current.filter((conv) => conv.id !== conversationId),
+      );
+    };
+
+    pusherClient.bind("conversation:new", newHandler);
+    pusherClient.bind("conversation:update", updateHandler);
+    pusherClient.bind("conversation:delete", deleteHandler);
 
     setIsLoading(false);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
-      pusherClient.unbind('conversation:new', newHandler);
-      pusherClient.unbind('conversation:update', updateHandler);
-      pusherClient.unbind('conversation:delete', deleteHandler);
+      pusherClient.unbind("conversation:new", newHandler);
+      pusherClient.unbind("conversation:update", updateHandler);
+      pusherClient.unbind("conversation:delete", deleteHandler);
     };
   }, [pusherKey]);
 
@@ -113,11 +119,21 @@ const ConversationList: React.FC<ConversationListProps> = ({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <aside className={clsx(`fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-muted`, isOpen ? 'hidden' : 'block w-full left-0')}>
+      <aside
+        className={clsx(
+          `fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-muted`,
+          isOpen ? "hidden" : "block w-full left-0",
+        )}
+      >
         <div className="px-5">
           <div className="flex justify-between mb-4 pt-4">
-            <div className="text-2xl font-bold text-muted-foreground">Messages</div>
-            <div onClick={() => setIsModalOpen(true)} className="rounded-full p-2 bg bg-gray-100 dark:bg-gray-900 cursor-pointer hover:opacity-75 transition">
+            <div className="text-2xl font-bold text-muted-foreground">
+              Messages
+            </div>
+            <div
+              onClick={() => setIsModalOpen(true)}
+              className="rounded-full p-2 bg bg-gray-100 dark:bg-gray-900 cursor-pointer hover:opacity-75 transition"
+            >
               <Users size={20} />
             </div>
           </div>

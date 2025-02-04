@@ -1,6 +1,7 @@
 {
   "name": "--typescripts",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -49,13 +50,18 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
     "@types/bcrypt": "^5.0.2",
     "@types/lodash": "^4.17.13",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
+    "eslint-define-config": "^2.1.0",
+    "eslint-plugin-next": "^0.0.0",
     "postcss": "^8",
     "prisma": "^6.0.1",
     "tailwindcss": "^3.4.16",

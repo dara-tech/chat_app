@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { User } from '@prisma/client';
-import Image from 'next/image';
-import useActiveList from '@/app/hooks/useActiveList';
+import { User } from "@prisma/client";
+import Image from "next/image";
+import useActiveList from "@/app/hooks/useActiveList";
 
 interface AvatarProps {
   user?: User;
@@ -15,8 +15,8 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
   return (
     <div className="relative inline-block rounded-full overflow-visible w-9 h-9 md:w-9 md:h-9">
       <Image
-        alt={user?.name ? `${user.name}'s avatar` : 'Default avatar'}
-        src={user?.image || '/placeholder.png'}
+        alt={user?.name ? `${user.name}'s avatar` : "Default avatar"}
+        src={user?.image || "/placeholder.png"}
         fill
         sizes="(max-width: 768px) 36px, 48px"
         priority
